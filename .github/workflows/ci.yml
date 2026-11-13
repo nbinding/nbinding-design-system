@@ -36,6 +36,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Build Storybook (its stories are tested too)
+        run: npm run storybook:build
       - run: npx playwright test
       - name: Upload report on failure
         if: failure()

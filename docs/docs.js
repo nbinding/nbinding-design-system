@@ -26,7 +26,7 @@ prefs.apply(prefs.read('nb-docs-display'), 'nb-docs-display');
 document.querySelector('[data-docs-header]')?.insertAdjacentHTML('afterbegin', `
   <a class="nb-skip" href="#main">Skip to content</a>
   <div class="docs-top"><a class="nb-brand" href="${href('index.html')}">${mark()}<span>nbinding design</span></a>
-    <div class="nb-row"><a class="nb-chip nb-chip--sm" href="https://github.com/nbinding/nbinding-design-system">Source</a><button class="nb-chip nb-chip--sm" data-docs-theme aria-label="Switch light or dark">Theme</button></div></div>
+    <div class="nb-row"><a class="nb-chip nb-chip--sm" href="${href('storybook/')}">Storybook</a><a class="nb-chip nb-chip--sm" href="https://github.com/nbinding/nbinding-design-system">Source</a><button class="nb-chip nb-chip--sm" data-docs-theme aria-label="Switch light or dark">Theme</button></div></div>
   <nav class="docs-nav" aria-label="Design system pages"><ul>${PAGES.map(([p, t]) => `<li><a class="nb-chip nb-chip--sm" href="${href(p)}"${isCurrent(p) ? ' aria-current="page"' : ''}>${t}</a></li>`).join('')}</ul></nav>`);
 document.querySelector('[data-docs-footer]')?.insertAdjacentHTML('afterbegin', `<p>nbinding design system. Fonts under the SIL Open Font License. Used by <a href="https://nbinding.github.io/calshare/">Calshare</a>.</p>`);
 document.querySelector('[data-docs-cards]')?.insertAdjacentHTML('afterbegin', PAGES.slice(1).map(([p, t, d]) => `<li><a href="${href(p)}"><strong>${t}</strong><small>${d}</small></a></li>`).join(''));

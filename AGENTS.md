@@ -6,7 +6,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Ground rules
 
-- **No build step and no runtime dependencies.** Plain CSS and ES modules. The only dev dependencies are `@playwright/test` and `@axe-core/playwright`.
+- **No build step and no runtime dependencies for `src/`.** Plain CSS and ES modules. Only Storybook (`.storybook/`, `stories/`) is built, by CI. Dev dependencies are Playwright, axe-core and Storybook, all pinned to exact versions at least two weeks old.
 - **Monochrome.** Dark grey and white only. Show every state by shape (hatch direction, solid, dotted, outlined), never by colour alone.
 - **Tokens first.** Use `--nb-*` custom properties, not raw values. When you change `src/tokens.css`, run `npm run tokens` to regenerate `src/tokens.json`; a unit test fails otherwise. Contrast is tested for both themes, so keep text at 4.5:1 or better.
 - **Hatching is declared on every theme scope** (`:root, .nb-light, .nb-dark`) so it uses that scope's ink. Do the same for any token built from other tokens.
@@ -21,7 +21,8 @@ Guidance for AI coding agents working in this repository.
 1. Add the CSS to the right file in `src/components/` (or a new file imported from `src/nb.css`).
 2. Show every state on its docs page as a `<template class="docs-src" data-title="…" data-notes="…">`. `docs/docs.js` renders it in a light and a dark frame with copyable HTML. Calendars can use `<div data-cal="{json}">`, rendered by `calendar()`.
 3. Add a behaviour test in `test/e2e/behaviour.spec.mjs` if it's interactive. `pages.spec.mjs` already checks rendering, axe, overflow and tap size for every page.
-4. Update the component table in `README.md`.
+4. Add or update its stories in `stories/` (CSF, `render(args)` returns HTML). Give each variant a control. `storybook.spec.mjs` runs axe on every story.
+5. Update the component table in `README.md`.
 
 ## Before you push
 

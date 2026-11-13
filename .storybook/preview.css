@@ -1,0 +1,5 @@
+/* Story canvas: the page colour follows the theme switch. */
+body { background: var(--nb-surface); color: var(--nb-ink); }
+.sb-show-main.sb-main-padded { padding: 1rem; }
+.story-frame { max-width: 420px; }
+.story-wide { max-width: 720px; }

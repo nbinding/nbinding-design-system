@@ -1,0 +1,42 @@
+import { Meta, ColorPalette, ColorItem, Typeset } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# nbinding design
+
+A calm, monochrome design system for small, private tools. Dark grey and white, real type, few boxes, and one memorable idea: **two hatch directions that become solid where they meet.** It powers [Calshare](https://nbinding.github.io/calshare/).
+
+Use the toolbar above any story to switch **Theme**, **Text size**, **Font** (including OpenDyslexic) and **Help with dates**. The **Accessibility** panel runs axe on every story.
+
+## Principles
+
+1. **Shape before colour.** Every state reads in greyscale: hatched one way, hatched the other, solid, dotted, outlined.
+2. **Space, not boxes.** Type and whitespace do the structuring.
+3. **One next action.** One obvious primary button per screen.
+4. **Comfortable for everyone.** 320px wide, 150% text, OpenDyslexic, light and dark, keyboard and screen reader.
+
+## Using it
+
+No build step for the system itself:
+
+```html
+<link rel="stylesheet" href="src/nb.css">
+<script type="module">
+  import { overlay, toast, copy, onHold, prefs, calendar, mark, esc } from './src/js/nb.js';
+</script>
+```
+
+Classes start with `nb-` (BEM style). Tokens are `--nb-*` custom properties, also in `src/tokens.json`.
+
+## Colour
+
+<ColorPalette>
+  <ColorItem title="Light" subtitle="Surfaces and ink" colors={{ surface: '#ffffff', panel: '#f4f4f2', line: '#e4e4e1', faint: '#8c8f93', muted: '#5c5f64', ink: '#1b1c1e' }} />
+  <ColorItem title="Dark" subtitle="Surfaces and ink" colors={{ surface: '#141517', panel: '#212225', line: '#2e3033', faint: '#7d8084', muted: '#a7a9ac', ink: '#f1f1ef' }} />
+  <ColorItem title="Signals" subtitle="Focus and error (light, dark)" colors={{ 'ring light': '#6f7377', 'ring dark': '#b9bbbe', 'error light': '#a33d32', 'error dark': '#ffb3a7' }} />
+</ColorPalette>
+
+## Type
+
+<Typeset fontFamily="'Bricolage Grotesque', sans-serif" fontWeight={800} fontSizes={[24, 32, 44, 56]} sampleText="When can you?" />
+<Typeset fontFamily="'Inter', sans-serif" fontSizes={[14, 16, 17, 22]} sampleText="Tap the days you're free." />
