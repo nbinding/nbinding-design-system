@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Foundations · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Foundations</h1>
+<p class="nb-lead">Colour, type, space, shape and the hatch patterns. Everything else is built from these tokens.</p>
+
+<h2 class="docs-h2">Colour</h2>
+
+<p>Dark grey and white only. Each token has a light and a dark value; text pairs meet WCAG AA (checked by the tests).</p>
+<template class="docs-src" data-title="Colour tokens" data-notes="">
+<div class="docs-swatches"><div class="docs-swatch"><span data-swatch="surface"></span><p><strong>--nb-surface</strong></p></div><div class="docs-swatch"><span data-swatch="ink"></span><p><strong>--nb-ink</strong></p></div><div class="docs-swatch"><span data-swatch="muted"></span><p><strong>--nb-muted</strong></p></div><div class="docs-swatch"><span data-swatch="faint"></span><p><strong>--nb-faint</strong></p></div><div class="docs-swatch"><span data-swatch="line"></span><p><strong>--nb-line</strong></p></div><div class="docs-swatch"><span data-swatch="panel"></span><p><strong>--nb-panel</strong></p></div><div class="docs-swatch"><span data-swatch="field"></span><p><strong>--nb-field</strong></p></div><div class="docs-swatch"><span data-swatch="accent"></span><p><strong>--nb-accent</strong></p></div><div class="docs-swatch"><span data-swatch="accent-ink"></span><p><strong>--nb-accent-ink</strong></p></div><div class="docs-swatch"><span data-swatch="ring"></span><p><strong>--nb-ring</strong></p></div><div class="docs-swatch"><span data-swatch="error"></span><p><strong>--nb-error</strong></p></div></div>
+</template>
+
+<div class="docs-wrap"><table class="docs-table"><thead><tr><th>Token</th><th>Use</th></tr></thead><tbody>
+<tr><td><code>--nb-surface</code></td><td>Page background</td></tr>
+<tr><td><code>--nb-ink</code></td><td>Text, outlines, hatching, solid states</td></tr>
+<tr><td><code>--nb-muted</code></td><td>Secondary text (4.5:1 or better on surface and panel)</td></tr>
+<tr><td><code>--nb-faint</code></td><td>Past days and placeholders only (decorative or disabled)</td></tr>
+<tr><td><code>--nb-line</code></td><td>Dividers</td></tr>
+<tr><td><code>--nb-panel</code></td><td>Day squares, fields, chips, the rare card</td></tr>
+<tr><td><code>--nb-accent</code> / <code>--nb-accent-ink</code></td><td>Primary buttons and solid states, and the text on them</td></tr>
+<tr><td><code>--nb-ring</code></td><td>Focus outline</td></tr>
+<tr><td><code>--nb-error</code></td><td>Errors, always with words</td></tr>
+</tbody></table></div>
+<h2 class="docs-h2">Type</h2>
+
+<p>Bricolage Grotesque for headlines, dates and numbers; Inter for everything else. Both are self-hosted.</p>
+<template class="docs-src" data-title="Type scale" data-notes="">
+<div class="nb-stack">
+<p class="nb-display">When can you?</p>
+<p class="nb-h2">Two things to send.</p>
+<p class="nb-h3">The words that open it</p>
+<p class="nb-lead">Tap the days you're free.</p>
+<p>Body text in Inter at 1rem with a 1.6 line height.</p>
+<p class="nb-small">Small text for hints and details.</p>
+<p class="nb-context">Dinner with Sam</p>
+</div>
+</template>
+
+<h2 class="docs-h2">Space and shape</h2>
+
+<div class="docs-wrap"><table class="docs-table"><thead><tr><th>Token</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>--nb-space-1 … 8</code></td><td>4, 8, 12, 16, 20, 24, 32, 48px</td></tr>
+<tr><td><code>--nb-radius-sm / md / lg / xl / cell / pill</code></td><td>8, 12, 16, 22, 14, 999px</td></tr>
+<tr><td><code>--nb-tap</code></td><td>44px minimum target</td></tr>
+<tr><td><code>--nb-button</code></td><td>60px primary button height</td></tr>
+<tr><td><code>--nb-duration</code>, <code>--nb-ease</code></td><td>120ms, a gentle ease-out (switched off by Reduce motion)</td></tr>
+</tbody></table></div>
+<h2 class="docs-h2">Hatching</h2>
+
+<p>The signature. Use <code class="nb-mono">--nb-hatch-a</code> (45°) for one party and <code class="nb-mono">--nb-hatch-b</code> (−45°) for the other. Where both apply, go solid.</p>
+<template class="docs-src" data-title="Hatch patterns" data-notes="">
+<div class="docs-frames"><div class="docs-hatch" data-hatch="a" role="img" aria-label="Hatched at 45 degrees"></div><div class="docs-hatch" data-hatch="b" role="img" aria-label="Hatched at minus 45 degrees"></div><div class="docs-hatch" data-hatch="solid" role="img" aria-label="Solid"></div></div>
+</template>
+
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

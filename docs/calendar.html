@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Calendar · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Calendar</h1>
+<p class="nb-lead">Day squares carry the whole system: yours hatched one way, theirs the other, both solid. Times show as letters, maybes as a dotted outline with a "?".</p>
+
+<template class="docs-src" data-title="Marking your days (try it)" data-notes="Uses calendar() from nb.js and onHold() for the sheet. Tap cycles any time → M → A → E → off." data-only="one">
+<div data-docs-live><div data-cal="{&quot;month&quot;: &quot;2026-11&quot;, &quot;today&quot;: &quot;2026-11-13&quot;, &quot;days&quot;: {&quot;2026-11-20&quot;: {}, &quot;2026-11-21&quot;: {}, &quot;2026-11-25&quot;: {&quot;times&quot;: &quot;E&quot;}, &quot;2026-11-27&quot;: {&quot;times&quot;: &quot;M&quot;, &quot;maybe&quot;: true}}, &quot;lead&quot;: &quot;Tap the days you&#x27;re free.&quot;}"></div><div class="nb-row"><p class="nb-hint">Tap a day again for morning, afternoon or evening. Hold it for maybe, or more than one time.</p></div></div>
+<div class="nb-sheet docs-demo-sheet" id="demo-sheet" role="dialog" aria-modal="true" aria-labelledby="demo-sheet-title" hidden><div class="nb-sheet__grip" aria-hidden="true"></div><h2 class="nb-sheet__title" id="demo-sheet-title">Day</h2><div class="nb-segmented" role="group" aria-label="Time"><button aria-pressed="true">Any time</button><button aria-pressed="false">Morning</button><button aria-pressed="false">Afternoon</button><button aria-pressed="false">Evening</button></div><p></p><button class="nb-button nb-button--block" data-nb-close data-nb-autofocus>Done</button></div>
+</template>
+
+<template class="docs-src" data-title="The overlap" data-notes="Theirs hatched at −45°, yours at 45°, shared days solid.">
+<div data-cal="{&quot;month&quot;: &quot;2026-11&quot;, &quot;today&quot;: &quot;2026-11-13&quot;, &quot;days&quot;: {&quot;2026-11-21&quot;: {}, &quot;2026-11-25&quot;: {}, &quot;2026-11-27&quot;: {}, &quot;2026-11-29&quot;: {}}, &quot;theirs&quot;: {&quot;2026-11-14&quot;: {}, &quot;2026-11-21&quot;: {}, &quot;2026-11-25&quot;: {}, &quot;2026-11-28&quot;: {&quot;maybe&quot;: true}}, &quot;lead&quot;: &quot;Sam is free on 4 days. Tap the ones you can do.&quot;}"></div><ul class="nb-key" aria-label="Key"><li><span class="nb-swatch nb-swatch--theirs"></span>Sam</li><li><span class="nb-swatch nb-swatch--mine"></span>You</li><li><span class="nb-swatch nb-swatch--both"></span>Both of you</li><li><span class="nb-swatch nb-swatch--maybe">?</span>Maybe</li></ul>
+</template>
+
+<template class="docs-src" data-title="Picking from shared days" data-notes="Choosable days are outlined, chosen ones solid, the rest are disabled.">
+<div data-cal="{&quot;month&quot;: &quot;2026-11&quot;, &quot;today&quot;: &quot;2026-11-13&quot;, &quot;mode&quot;: &quot;pick&quot;, &quot;choosable&quot;: {&quot;2026-11-21&quot;: {}, &quot;2026-11-25&quot;: {&quot;times&quot;: &quot;E&quot;}, &quot;2026-11-28&quot;: {&quot;maybe&quot;: true}}, &quot;chosen&quot;: [&quot;2026-11-21&quot;]}"></div>
+</template>
+
+<template class="docs-src" data-title="Group counts" data-notes="How many can make each day, including the organiser.">
+<div data-cal="{&quot;month&quot;: &quot;2026-11&quot;, &quot;today&quot;: &quot;2026-11-13&quot;, &quot;mode&quot;: &quot;pick&quot;, &quot;choosable&quot;: {&quot;2026-11-20&quot;: {}, &quot;2026-11-21&quot;: {}, &quot;2026-11-22&quot;: {}}, &quot;chosen&quot;: [&quot;2026-11-21&quot;], &quot;counts&quot;: {&quot;2026-11-20&quot;: &quot;2/4&quot;, &quot;2026-11-21&quot;: &quot;4/4&quot;, &quot;2026-11-22&quot;: &quot;2/4&quot;}}"></div>
+</template>
+
+<template class="docs-src" data-title="Every cell state" data-notes="Free, yours, yours with a time, theirs, both, maybe, both and maybe, choosable, chosen, with a count, past, today, blank.">
+<div class="nb-cal__grid">
+<button class="nb-cell" aria-label="Free to mark"><span class="nb-cell__num">16</span></button>
+<button class="nb-cell nb-cell--mine" aria-pressed="true" aria-label="You're free"><span class="nb-cell__num">17</span></button>
+<button class="nb-cell nb-cell--mine" aria-pressed="true" aria-label="You're free in the evening"><span class="nb-cell__num">18</span><span class="nb-cell__tags">E</span></button>
+<button class="nb-cell nb-cell--theirs" aria-label="They're free"><span class="nb-cell__num">19</span></button>
+<button class="nb-cell nb-cell--both" aria-label="Both free"><span class="nb-cell__num">20</span></button>
+<button class="nb-cell nb-cell--mine nb-cell--maybe" aria-label="You're free, maybe"><span class="nb-cell__num">21</span><span class="nb-cell__q" aria-hidden="true">?</span></button>
+<button class="nb-cell nb-cell--both nb-cell--maybe" aria-label="Both free, maybe"><span class="nb-cell__num">22</span><span class="nb-cell__q" aria-hidden="true">?</span></button>
+<button class="nb-cell nb-cell--choosable" aria-pressed="false" aria-label="Can choose"><span class="nb-cell__num">23</span></button>
+<button class="nb-cell nb-cell--chosen" aria-pressed="true" aria-label="Chosen"><span class="nb-cell__num">24</span></button>
+<button class="nb-cell nb-cell--choosable" aria-label="3 of 4 can make it"><span class="nb-cell__num">25</span><span class="nb-cell__tags">3/4</span></button>
+<button class="nb-cell nb-cell--past" disabled aria-label="Past"><span class="nb-cell__num">9</span></button>
+<button class="nb-cell nb-cell--today" aria-label="Today"><span class="nb-cell__num">13</span></button>
+<span class="nb-cell nb-cell--blank" aria-hidden="true"></span>
+</div>
+</template>
+
+<template class="docs-src" data-title="Key" data-notes="">
+<ul class="nb-key" aria-label="Key"><li><span class="nb-swatch nb-swatch--theirs"></span>Them</li><li><span class="nb-swatch nb-swatch--mine"></span>You</li><li><span class="nb-swatch nb-swatch--both"></span>Both</li><li><span class="nb-swatch nb-swatch--maybe">?</span>Maybe</li><li><span class="nb-swatch nb-swatch--choosable"></span>Can choose</li></ul>
+</template>
+
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

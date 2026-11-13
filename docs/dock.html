@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Dock · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Dock</h1>
+<p class="nb-lead">A sticky bar at the bottom of a working screen: the count, a detail, and the one next action. Focused items are kept clear of it.</p>
+
+<template class="docs-src" data-title="Empty" data-notes="">
+<div class="nb-dock"><div class="nb-dock__row"><strong class="nb-dock__summary">No days yet</strong><span class="nb-dock__detail">Tap a day to start</span></div><button class="nb-button nb-button--block nb-button--trailing">Send to someone<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+</template>
+
+<template class="docs-src" data-title="With a summary" data-notes="">
+<div class="nb-dock"><div class="nb-dock__row"><strong class="nb-dock__summary">3 days match</strong><span class="nb-dock__detail">Sat 21, Wed 25, Sat 28</span></div><button class="nb-button nb-button--block nb-button--trailing">Send back to Sam<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+</template>
+
+<template class="docs-src" data-title="With an error" data-notes="">
+<div class="nb-dock"><div class="nb-dock__row"><strong class="nb-dock__summary">No days yet</strong></div><p class="nb-field__error" role="alert">Tap at least one day you are free.</p><button class="nb-button nb-button--block nb-button--trailing">Send to someone<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+</template>
+
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

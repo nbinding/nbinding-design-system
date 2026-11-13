@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Content · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Content</h1>
+<p class="nb-lead">Blocks for sharing, explaining and listing.</p>
+
+<template class="docs-src" data-title="Sharing in two steps" data-notes="">
+<div><div class="nb-beat"><p class="nb-beat__head"><span class="nb-beat__n">1</span>Your days</p><p class="nb-preview">Can we find a day for dinner? Here's when I'm free. Add yours and send it back.</p><button class="nb-button nb-button--block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Send the link</button></div>
+<div class="nb-beat"><p class="nb-beat__head"><span class="nb-beat__n">2</span>The words that open it</p><p class="nb-words">orbit-forest-wren</p><p class="nb-small">Send these in a separate message, or just say them.</p><button class="nb-button nb-button--secondary nb-button--block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>Copy the words</button></div></div>
+</template>
+
+<template class="docs-src" data-title="Reply code" data-notes="">
+<p class="nb-code-box">Your reply code: <strong>PD</strong></p>
+</template>
+
+<template class="docs-src" data-title="Disclosure" data-notes="Native details/summary, so it works without JavaScript.">
+<details class="nb-disclosure"><summary>Show the link</summary><textarea class="nb-textarea nb-textarea--mono" readonly rows="3" aria-label="Link">https://nbinding.github.io/calshare/#abc.def</textarea></details><details class="nb-disclosure"><summary>Edit the message</summary><p class="nb-small">Hidden content.</p></details>
+</template>
+
+<template class="docs-src" data-title="List rows" data-notes="">
+<ul class="nb-list"><li class="nb-list__row"><a class="nb-list__main" href="#"><strong>Dinner</strong><small>Settled: Sat 21 Nov</small></a><button class="nb-text-button">Forget</button></li><li class="nb-list__row"><span class="nb-list__main"><strong>Sam · PD</strong></span><span class="nb-list__aside">2 days free</span></li></ul>
+</template>
+
+<template class="docs-src" data-title="How it works" data-notes="">
+<ol class="nb-steps"><li><span class="nb-steps__n">1</span><div><h3>You share</h3><p>Pick the days you're free and send the link.</p></div></li><li><span class="nb-steps__n">2</span><div><h3>They add theirs</h3><p>They mark their days and send it back.</p></div></li></ol>
+</template>
+
+<template class="docs-src" data-title="Section label" data-notes="">
+<p class="nb-section">Your plans</p>
+</template>
+
+<template class="docs-src" data-title="Privacy line" data-notes="">
+<p class="nb-privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Encrypted in your browser. Nothing is sent to a server.</span></p>
+</template>
+
+<template class="docs-src" data-title="Card" data-notes="Use sparingly.">
+<div class="nb-card"><p class="nb-h3">Planning with a group?</p><p class="nb-small">Everyone gets the same link and replies to you separately.</p></div>
+</template>
+
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>
