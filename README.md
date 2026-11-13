@@ -71,4 +71,4 @@ See [TESTING.md](TESTING.md) for what's covered and [AGENTS.md](AGENTS.md) for g
 
 ## Licence
 
-Fonts are under the SIL Open Font License 1.1 (see `src/fonts/FONTS.md`). The repository owner hasn't chosen a licence for the code yet.
+Code is under the [MIT License](LICENSE). Fonts are under the SIL Open Font License 1.1 (see `src/fonts/FONTS.md`).
