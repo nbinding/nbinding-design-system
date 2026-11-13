@@ -12,7 +12,7 @@
     "storybook:build": "storybook build -o storybook-static --quiet"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.10.2",
+    "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.63.0",
     "@storybook/addon-a11y": "10.6.5",
     "@storybook/addon-docs": "10.6.5",
