@@ -2,7 +2,16 @@
 
 A calm, monochrome design system for small, private tools. Dark grey and white, real type, few boxes, and one memorable idea: **two hatch directions that become solid where they meet.** It powers [Calshare](https://nbinding.github.io/calshare/).
 
-**Docs and live examples:** https://nbinding.github.io/nbinding-design-system/ once GitHub Pages is on (Settings → Pages → Deploy from a branch → `main`, `/ (root)`).
+**Docs:** https://nbinding.github.io/nbinding-design-system/
+**Storybook:** https://nbinding.github.io/nbinding-design-system/storybook/
+
+Both go live once GitHub Pages is on: Settings → Pages → Source: **GitHub Actions**. The `Publish docs and Storybook` workflow then deploys on every push to `main`.
+
+## Storybook
+
+Every component has stories with live **controls** for its variants, an auto-generated **Docs** page with copyable code, and an **Accessibility** panel that runs axe. The toolbar switches **Theme**, **Text size** (up to 150%), **Font** (including OpenDyslexic) and **Help with dates** for every story. Run it locally with `npm run storybook`.
+
+Storybook is the only part with a build step. The design system itself (`src/`) is still plain CSS and ES modules.
 
 ## Principles
 
@@ -57,6 +66,7 @@ src/
 index.html, docs/     The documentation site: every component in light and dark with copyable HTML
 test/                 Unit tests (contrast, tokens, nb.js) and browser tests (every page, axe, behaviour)
 scripts/tokens-json.mjs
+.storybook/, stories/  Storybook configuration and one stories file per area
 ```
 
 ## Development
@@ -64,7 +74,8 @@ scripts/tokens-json.mjs
 ```sh
 npm run serve                 # http://localhost:4174
 npm test                      # contrast, tokens in sync, nb.js
-npm ci && npm run test:e2e    # every page at 3 sizes and at 150% OpenDyslexic, axe, behaviour
+npm run storybook             # Storybook at http://localhost:6006
+npm ci && npm run storybook:build && npm run test:e2e   # every page and story: axe, overflow, behaviour
 ```
 
 See [TESTING.md](TESTING.md) for what's covered and [AGENTS.md](AGENTS.md) for guidance for AI coding agents.

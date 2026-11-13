@@ -7,10 +7,17 @@
     "test:e2e": "playwright test",
     "test:all": "npm test && npm run test:e2e",
     "serve": "node test/serve.mjs",
-    "tokens": "node scripts/tokens-json.mjs"
+    "tokens": "node scripts/tokens-json.mjs",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build -o storybook-static --quiet"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
-    "@playwright/test": "1.63.0"
+    "@playwright/test": "1.63.0",
+    "@storybook/addon-a11y": "10.6.5",
+    "@storybook/addon-docs": "10.6.5",
+    "@storybook/html-vite": "10.6.5",
+    "storybook": "10.6.5",
+    "vite": "8.3.5"
   }
 }

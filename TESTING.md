@@ -18,6 +18,7 @@ These are Playwright tests in `test/e2e/`, run at iPhone 13, iPhone SE (320px) a
 | File | Covers |
 |---|---|
 | `pages.spec.mjs` | **Every docs page:** every example renders, there are no console errors, and nothing scrolls sideways. The sideways check also confirms the phone browser never widened the layout viewport. **axe-core** finds no serious or critical WCAG 2.2 AA violations in light and dark frames, with all code samples open. Every interactive component is at least 44px in both directions (40px chips allowed). Then **again at 150% text with OpenDyslexic**, help with dates, extra spacing and reduced motion: no sideways scrolling, and no calendar, dock or passphrase text past the edge. |
+| `storybook.spec.mjs` | Every Storybook story (from `storybook-static/index.json`) renders, has no console errors, fits a phone without sideways scrolling, and passes axe WCAG 2.2 AA. Needs `npm run storybook:build` first; CI builds Storybook before the browser tests. |
 | `behaviour.spec.mjs` | The dialog and sheet trap focus, close with Escape and Done, return focus and remove the scrim. The calendar demo cycles a day's time on tap, and holding opens the sheet without also cycling the day. Segmented controls select one option. Display settings apply across pages, persist for the tab and reset. Copy HTML shows a toast. No requests go to other hosts. |
 
 ```sh
@@ -35,6 +36,6 @@ npm run test:e2e
 
 ## Recommended repository settings
 
-- **Pages:** deploy from `main`, `/ (root)`, so the docs site goes live.
+- **Pages:** set the source to **GitHub Actions**. The `Publish docs and Storybook` workflow builds Storybook and deploys it with the docs on every push to `main`.
 - **Code security:** turn on secret scanning and push protection.
 - **Branches → `main`:** require the test and CodeQL checks before merging.
