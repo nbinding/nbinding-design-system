@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Accessibility · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Accessibility</h1>
+<p class="nb-lead">Readers can make it comfortable for themselves. These settings apply to this whole docs site for this tab, so you can see every component change.</p>
+
+<section class="nb-card nb-stack" data-docs-prefs aria-label="Display settings">
+<fieldset class="nb-field"><legend class="nb-field__label">Text size</legend><div class="nb-options"><button data-key="size" data-value="100">Standard<small>100%</small></button><button data-key="size" data-value="115">Large<small>115%</small></button><button data-key="size" data-value="130">Larger<small>130%</small></button><button data-key="size" data-value="150">Largest<small>150%</small></button></div></fieldset>
+<fieldset class="nb-field"><legend class="nb-field__label">Reading font</legend><div class="nb-options"><button data-key="font" data-value="default">Original</button><button data-key="font" data-value="sans">Plain sans</button><button data-key="font" data-value="dyslexic">OpenDyslexic</button></div></fieldset>
+<fieldset class="nb-field"><legend class="nb-field__label">Appearance</legend><div class="nb-options"><button data-key="theme" data-value="system">Use device</button><button data-key="theme" data-value="light">Light</button><button data-key="theme" data-value="dark">Dark</button></div></fieldset>
+<label class="nb-toggle"><input type="checkbox" data-key="dateHelp"><span class="nb-toggle__text"><strong>Help with dates</strong><small>Weekday inside every day, today labelled.</small></span></label>
+<label class="nb-toggle"><input type="checkbox" data-key="spacing"><span class="nb-toggle__text"><strong>More breathing room</strong><small>More line height, letter and word spacing.</small></span></label>
+<label class="nb-toggle"><input type="checkbox" data-key="motion"><span class="nb-toggle__text"><strong>Reduce motion</strong><small>No animations or transitions.</small></span></label>
+<button class="nb-button nb-button--secondary" data-docs-reset>Reset display settings</button>
+</section>
+<h2 class="docs-h2">Rules every component follows</h2>
+
+<ul>
+<li>Works at 320px wide with no sideways scrolling, at 150% text and with OpenDyslexic. The tests check that the browser never widens the layout.</li>
+<li>Every state has a shape, not just a colour. Text meets WCAG AA contrast in light and dark.</li>
+<li>Tap targets are at least 44 by 44px; primary buttons are 60px tall.</li>
+<li>Real buttons, links, inputs and labels. Icon-only buttons have an aria-label; decorative SVGs are aria-hidden.</li>
+<li>Sheets and dialogs trap focus, close with Escape and give focus back. Holding is never the only way to do something: there is always a button.</li>
+<li>The sticky dock never hides the focused element (scroll padding, WCAG 2.4.11).</li>
+<li>Reduce motion and the operating system's reduced-motion setting turn off transitions.</li>
+</ul>
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

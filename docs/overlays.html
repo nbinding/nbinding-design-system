@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Overlays · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Overlays</h1>
+<p class="nb-lead">Sheets and dialogs trap focus, close with Escape and return focus to what opened them. Use overlay() from nb.js.</p>
+
+<template class="docs-src" data-title="Bottom sheet" data-notes="Shown in place here. In an app it slides up from the bottom.">
+<div class="nb-sheet nb-sheet--inline" role="group" aria-labelledby="sh-t"><div class="nb-sheet__grip" aria-hidden="true"></div><h2 class="nb-sheet__title" id="sh-t">Saturday, 21 November</h2><div class="nb-stack"><div class="nb-segmented" role="group" aria-label="Time on Saturday"><button aria-pressed="true">Any time</button><button aria-pressed="false">Morning</button><button aria-pressed="false">Afternoon</button><button aria-pressed="false">Evening</button></div><div class="nb-segmented" role="group" aria-label="How sure on Saturday"><button aria-pressed="true">Free</button><button aria-pressed="false">? Maybe</button></div><button class="nb-button nb-button--block">Done</button></div></div>
+</template>
+
+<template class="docs-src" data-title="Open a real sheet" data-notes="" data-only="one">
+<button class="nb-button nb-button--secondary" data-docs-open="ov-sheet">Open sheet</button>
+<div class="nb-sheet docs-demo-sheet" id="ov-sheet" role="dialog" aria-modal="true" aria-labelledby="ov-sheet-t" hidden><div class="nb-sheet__grip" aria-hidden="true"></div><h2 class="nb-sheet__title" id="ov-sheet-t">Times and maybes</h2><p class="nb-small">Escape or Done closes this and returns focus.</p><p></p><button class="nb-button nb-button--block" data-nb-close data-nb-autofocus>Done</button></div>
+</template>
+
+<template class="docs-src" data-title="Dialog" data-notes="">
+<div class="nb-dialog nb-dialog--inline" role="group" aria-labelledby="dl-t"><div class="nb-dialog__head"><h2 class="nb-dialog__title" id="dl-t">Display and accessibility</h2><button class="nb-icon-button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="nb-small">Make it comfortable for you. Settings last for this tab.</p><div class="nb-dialog__actions"><button class="nb-button nb-button--secondary">Reset</button><button class="nb-button">Done</button></div></div>
+</template>
+
+<template class="docs-src" data-title="Open a real dialog" data-notes="" data-only="one">
+<button class="nb-button nb-button--secondary" data-docs-open="ov-dialog">Open dialog</button>
+<div class="nb-dialog docs-demo-dialog" id="ov-dialog" role="dialog" aria-modal="true" aria-labelledby="ov-dialog-t" hidden><div class="nb-dialog__head"><h2 class="nb-dialog__title" id="ov-dialog-t">Forget this plan?</h2><button class="nb-icon-button" aria-label="Close" data-nb-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><p class="nb-small">It is removed from this device only.</p><div class="nb-dialog__actions"><button class="nb-button nb-button--secondary" data-nb-close data-nb-autofocus>Keep it</button><button class="nb-button" data-nb-close>Forget</button></div></div>
+</template>
+
+<template class="docs-src" data-title="Toast" data-notes="Short, announced with role=&quot;status&quot;, gone after two seconds.">
+<div class="nb-row"><span class="nb-toast nb-toast--inline" role="status">Message copied</span><button class="nb-button nb-button--secondary" data-docs-toast>Show a toast</button></div>
+</template>
+
+<template class="docs-src" data-title="Note" data-notes="">
+<div class="nb-note"><p><strong>This is an older link.</strong> You already have a later step saved on this device.</p><button class="nb-text-button">Open the latest</button></div>
+</template>
+
+<template class="docs-src" data-title="Error note" data-notes="">
+<div class="nb-note nb-note--error" role="alert"><p><strong>That passphrase doesn't open this link.</strong> Check for typos or ask the sender.</p></div>
+</template>
+
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

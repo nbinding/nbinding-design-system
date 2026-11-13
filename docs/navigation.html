@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Navigation · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Navigation</h1>
+<p class="nb-lead">Where you are and whose turn it is.</p>
+
+<template class="docs-src" data-title="Top bar" data-notes="Wraps rather than overflowing at large text sizes.">
+<header class="nb-topbar"><a class="nb-brand" href="#"><span data-mark="26"></span><span>calshare</span></a><div class="nb-topbar__actions"><a class="nb-chip" href="#">Your plans</a><button class="nb-chip" aria-label="Display and accessibility settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span>Display</span></button></div></header>
+</template>
+
+<template class="docs-src" data-title="Breadcrumb" data-notes="">
+<nav class="nb-breadcrumb" aria-label="Breadcrumb">Calshare <span aria-hidden="true">/</span> <strong>Step 2 of 4</strong></nav>
+</template>
+
+<template class="docs-src" data-title="Stepper" data-notes="Shows whose turn it is. The current step has aria-current.">
+<ol class="nb-stepper" aria-label="Progress"><li data-state="done">Sam shares</li><li aria-current="step">Alex adds days</li><li>Sam picks</li><li>Alex confirms</li></ol>
+</template>
+
+<template class="docs-src" data-title="Sidebar" data-notes="Desktop only in Calshare.">
+<nav class="nb-sidebar" aria-label="Plan steps"><a class="nb-brand nb-brand--lg" href="#"><span data-mark="32"></span><span>calshare</span></a><p class="nb-sidebar__label">Private, day-level scheduling</p>
+<ol class="nb-nav"><li><span class="nb-nav__item"><span class="nb-nav__num">✓</span><span><strong>Sam shares</strong><small>Marks free days and sends the link</small></span></span></li><li><span class="nb-nav__item" aria-current="step"><span class="nb-nav__num">02</span><span><strong>Alex adds days</strong><small>Marks theirs and sends it back</small></span></span></li><li><span class="nb-nav__item"><span class="nb-nav__num">03</span><span><strong>Sam picks</strong><small>Chooses from the shared days</small></span></span></li></ol>
+<progress class="nb-progress" value="1" max="4">1 of 4</progress></nav>
+</template>
+
+<template class="docs-src" data-title="Progress" data-notes="">
+<progress class="nb-progress" value="2" max="4" aria-label="Steps done">2 of 4</progress>
+</template>
+
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

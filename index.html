@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-root=".">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>nbinding design · nbinding design</title>
+<link rel="stylesheet" href="src/nb.css">
+<link rel="stylesheet" href="docs/docs.css">
+<script type="module" src="docs/docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">nbinding design</h1>
+<p class="nb-lead">A calm, monochrome design system for small, private tools. Dark grey and white, real type, few boxes, and one memorable idea: two hatch directions that become solid where they meet.</p>
+
+<p class="nb-row"><a class="nb-button" href="docs/calendar.html">See the calendar<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="nb-button nb-button--secondary" href="https://nbinding.github.io/calshare/">Used in Calshare</a></p>
+<h2 class="docs-h2">Principles</h2>
+
+<ul class="nb-steps">
+<li><span class="nb-steps__n">1</span><div><h3>Shape before colour</h3><p>Every state reads in greyscale: hatch one way, hatch the other, solid, dotted, outlined. Nothing relies on colour alone.</p></div></li>
+<li><span class="nb-steps__n">2</span><div><h3>Space, not boxes</h3><p>Structure comes from type and whitespace. Panels and cards are the exception, not the frame.</p></div></li>
+<li><span class="nb-steps__n">3</span><div><h3>One next action</h3><p>Each screen has one obvious primary button, often in the sticky dock.</p></div></li>
+<li><span class="nb-steps__n">4</span><div><h3>Comfortable for everyone</h3><p>Works at 320px wide, at 150% text, with OpenDyslexic, in light and dark, with a keyboard and a screen reader.</p></div></li>
+</ul>
+<h2 class="docs-h2">Quick start</h2>
+
+<p>No build step. Copy <code class="nb-mono">src/</code> into your project (or link it), then:</p>
+<pre class="nb-preview nb-mono">&lt;link rel="stylesheet" href="src/nb.css"&gt;
+&lt;script type="module"&gt;
+  import { overlay, toast, onHold, prefs, calendar } from './src/js/nb.js';
+&lt;/script&gt;</pre>
+<p>Classes start with <code class="nb-mono">nb-</code>. Tokens are CSS custom properties starting with <code class="nb-mono">--nb-</code>, also in <code class="nb-mono">src/tokens.json</code> for design tools.</p>
+<h2 class="docs-h2">Everything in it</h2>
+
+<ul class="docs-cards" data-docs-cards></ul>
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>
