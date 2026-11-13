@@ -1,5 +1,5 @@
 // Documentation site behaviour: header and nav, light/dark example frames with copyable HTML, live demos.
-import { esc, mark, calendar, overlay, toast, copy, onHold, prefs } from '../src/js/nb.js';
+import { esc, mark, calendar, overlay, toast, copy, onHold, prefs, terms } from '../src/js/nb.js';
 
 const root = document.documentElement.dataset.root || '..';
 const PAGES = [
@@ -12,7 +12,10 @@ const PAGES = [
   ['docs/navigation.html', 'Navigation', 'Top bar, breadcrumb, stepper, sidebar'],
   ['docs/dock.html', 'Dock', 'Count and the one next action'],
   ['docs/overlays.html', 'Overlays', 'Sheet, dialog, toast, notes'],
-  ['docs/content.html', 'Content', 'Sharing steps, words, disclosure, lists'],
+  ['docs/content.html', 'Content', 'Sharing steps, words, disclosure, lists, actions'],
+  ['docs/figures.html', 'Figures', 'Money fields, amounts in words, sums'],
+  ['docs/journey.html', 'Journey', 'Timeline, status, outcomes, answers, dates'],
+  ['docs/documents.html', 'Documents', 'Paper preview, gaps, plain-language terms'],
   ['docs/poster.html', 'Poster', 'The settled date'],
   ['docs/accessibility.html', 'Accessibility', 'Display settings and rules'],
 ];
@@ -22,13 +25,27 @@ const isCurrent = p => here.endsWith(p) || (p === 'index.html' && /\/$|\/index\.
 
 prefs.apply(prefs.read('nb-docs-display'), 'nb-docs-display');
 
+// App looks: every component in each app's theme. Add an app here once its tokens are in src/tokens.css.
+const APPS = [['calshare', 'Calshare'], ['stead', 'Stead']];
+const storedApp = () => { try { return sessionStorage.getItem('nb-docs-app'); } catch { return null; } };
+function setApp(app) {
+  if (!APPS.some(([v]) => v === app)) app = 'calshare';
+  if (app === 'calshare') delete document.documentElement.dataset.nbApp; else document.documentElement.dataset.nbApp = app;
+  try { sessionStorage.setItem('nb-docs-app', app); } catch { /* private mode: this page only */ }
+  document.querySelectorAll('[data-docs-app]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.docsApp === app)));
+}
+setApp(new URLSearchParams(location.search).get('app') || storedApp() || 'calshare');
+
 // Header, nav and footer
 document.querySelector('[data-docs-header]')?.insertAdjacentHTML('afterbegin', `
   <a class="nb-skip" href="#main">Skip to content</a>
   <div class="docs-top"><a class="nb-brand" href="${href('index.html')}">${mark()}<span>nbinding design</span></a>
-    <div class="nb-row"><a class="nb-chip nb-chip--sm" href="${href('storybook/')}">Storybook</a><a class="nb-chip nb-chip--sm" href="https://github.com/nbinding/nbinding-design-system">Source</a><button class="nb-chip nb-chip--sm" data-docs-theme aria-label="Switch light or dark">Theme</button></div></div>
+    <div class="nb-row"><a class="nb-chip nb-chip--sm" href="${href('storybook/')}">Storybook</a><a class="nb-chip nb-chip--sm" href="https://github.com/nbinding/nbinding-design-system">Source</a><button class="nb-chip nb-chip--sm" data-docs-theme aria-label="Switch light or dark">Theme</button></div>
+    <div class="docs-apps nb-row"><span class="nb-small" id="docs-apps-l">App look</span><div class="nb-segmented" role="group" aria-labelledby="docs-apps-l">${APPS.map(([v, t]) => `<button data-docs-app="${v}" aria-pressed="false">${t}</button>`).join('')}</div></div></div>
   <nav class="docs-nav" aria-label="Design system pages"><ul>${PAGES.map(([p, t]) => `<li><a class="nb-chip nb-chip--sm" href="${href(p)}"${isCurrent(p) ? ' aria-current="page"' : ''}>${t}</a></li>`).join('')}</ul></nav>`);
-document.querySelector('[data-docs-footer]')?.insertAdjacentHTML('afterbegin', `<p>nbinding design system. Fonts under the SIL Open Font License. Used by <a href="https://nbinding.github.io/calshare/">Calshare</a>.</p>`);
+document.querySelector('[data-docs-footer]')?.insertAdjacentHTML('afterbegin', `<p>nbinding design system. Fonts under the SIL Open Font License. Used by <a href="https://nbinding.github.io/calshare/">Calshare</a> and <a href="https://nbinding.github.io/stead-mobile/">Stead</a>.</p>`);
+setApp(document.documentElement.dataset.nbApp || 'calshare');
+document.querySelector('.docs-apps')?.addEventListener('click', e => { const b = e.target.closest('[data-docs-app]'); if (b) setApp(b.dataset.docsApp); });
 document.querySelector('[data-docs-cards]')?.insertAdjacentHTML('afterbegin', PAGES.slice(1).map(([p, t, d]) => `<li><a href="${href(p)}"><strong>${t}</strong><small>${d}</small></a></li>`).join(''));
 document.querySelector('[data-docs-theme]')?.addEventListener('click', () => {
   const p = prefs.read('nb-docs-display');
@@ -53,6 +70,7 @@ document.querySelectorAll('template.docs-src').forEach((tpl, i) => {
   fig.querySelectorAll('.nb-dark [id]').forEach(x => { x.id += '-dark'; });
   fig.querySelectorAll('.nb-dark [for]').forEach(x => { x.htmlFor += '-dark'; });
   fig.querySelectorAll('.nb-dark [aria-labelledby]').forEach(x => { x.setAttribute('aria-labelledby', x.getAttribute('aria-labelledby').split(' ').map(v => v + '-dark').join(' ')); });
+  fig.querySelectorAll('.nb-dark [aria-controls]').forEach(x => { x.setAttribute('aria-controls', x.getAttribute('aria-controls') + '-dark'); });
   fig.querySelectorAll('.nb-dark [aria-describedby]').forEach(x => { x.setAttribute('aria-describedby', x.getAttribute('aria-describedby').split(' ').map(v => v + '-dark').join(' ')); });
   fig.querySelectorAll('.nb-dark input[name]').forEach(x => { x.name += '-dark'; });
   fig.querySelector('[data-docs-copy]').addEventListener('click', async () => toast(await copy(html) ? 'HTML copied' : 'Copy failed: select it by hand'));
@@ -66,7 +84,7 @@ document.querySelectorAll('[data-hatch]').forEach(el => { el.style.background = 
 // Live demos: segmented and option buttons toggle; day cells cycle; hold opens the sheet
 document.addEventListener('click', e => {
   const seg = e.target.closest('.nb-segmented > button, .nb-options > button');
-  if (seg && !seg.closest('[data-docs-prefs]')) {
+  if (seg && !seg.closest('[data-docs-prefs], .docs-apps')) {
     const attr = seg.hasAttribute('aria-checked') ? 'aria-checked' : 'aria-pressed';
     seg.parentElement.querySelectorAll('button').forEach(b => b.setAttribute(attr, String(b === seg)));
   }
@@ -91,6 +109,8 @@ document.querySelectorAll('[data-docs-live]').forEach(el => onHold(el, '.nb-cell
   sheet.querySelector('.nb-sheet__title').textContent = cell.getAttribute('aria-label').split(',').slice(0, 2).join(',');
   overlay(sheet);
 }));
+
+terms();
 
 // Display settings demo (accessibility page): applies to the whole docs site for this tab
 const panel = document.querySelector('[data-docs-prefs]');

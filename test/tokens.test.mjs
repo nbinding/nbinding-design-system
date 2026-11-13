@@ -10,10 +10,10 @@ const ratio = (a, b) => { const [x, y] = [lum(hex(a)), lum(hex(b))].sort((p, q) 
 
 const tokens = await buildTokens();
 
-for (const theme of ['light', 'dark']) {
-  const c = tokens.color[theme];
+const themes = { light: tokens.color.light, dark: tokens.color.dark, 'stead light': tokens.app.stead.light, 'stead dark': tokens.app.stead.dark };
+for (const [theme, c] of Object.entries(themes)) {
   test(`${theme}: text pairs meet WCAG AA (4.5:1)`, () => {
-    for (const [fg, bg] of [['ink', 'surface'], ['ink', 'panel'], ['muted', 'surface'], ['muted', 'panel'], ['accent-ink', 'accent'], ['error', 'surface'], ['ink', 'field']]) {
+    for (const [fg, bg] of [['ink', 'surface'], ['ink', 'panel'], ['muted', 'surface'], ['muted', 'panel'], ['accent-ink', 'accent'], ['error', 'surface'], ['ink', 'field'], ['em', 'surface'], ['paper-ink', 'paper'], ['ink', 'input-bg']]) {
       const r = ratio(c[fg], c[bg]);
       assert.ok(r >= 4.5, `${theme} ${fg} on ${bg} is ${r.toFixed(2)}:1`);
     }
@@ -23,8 +23,13 @@ for (const theme of ['light', 'dark']) {
   });
 }
 
-test('light and dark define the same colour tokens', () => {
-  assert.deepEqual(Object.keys(tokens.color.light).sort(), Object.keys(tokens.color.dark).sort());
+test('every theme defines the same colour tokens', () => {
+  const keys = Object.keys(tokens.color.light).sort();
+  for (const [theme, c] of Object.entries(themes)) assert.deepEqual(Object.keys(c).sort(), keys, theme);
+});
+
+test('Stead fields have a visible edge (3:1) in both themes', () => {
+  for (const c of [tokens.app.stead.light, tokens.app.stead.dark]) assert.ok(ratio(c['input-line'], c.surface) >= 3, `${c['input-line']} on ${c.surface}`);
 });
 
 test('src/tokens.json is up to date (run npm run tokens)', async () => {
@@ -32,8 +37,18 @@ test('src/tokens.json is up to date (run npm run tokens)', async () => {
   assert.deepEqual(saved, tokens);
 });
 
-test('the prefers-color-scheme block matches the explicit dark theme', async () => {
+test('the prefers-color-scheme blocks match the explicit dark themes', async () => {
   const css = await readFile(new URL('../src/tokens.css', import.meta.url), 'utf8');
   const media = css.slice(css.indexOf('@media (prefers-color-scheme: dark)'), css.indexOf(':root[data-theme="dark"], .nb-dark'));
   for (const [k, v] of Object.entries(tokens.color.dark)) assert.ok(media.includes(`--nb-${k}: ${v};`), `--nb-${k} differs in the media query`);
+  const steadMedia = css.slice(css.indexOf(':root[data-nb-app="stead"]:not('), css.indexOf(':root[data-nb-app="stead"][data-theme="dark"], '));
+  for (const [k, v] of Object.entries(tokens.app.stead.dark)) assert.ok(steadMedia.includes(`--nb-${k}: ${v};`), `Stead --nb-${k} differs in the media query`);
+});
+
+test('the light-inside-dark blocks match the light themes', async () => {
+  const css = await readFile(new URL('../src/tokens.css', import.meta.url), 'utf8');
+  const cs = css.slice(css.indexOf('/* An explicit light section'), css.indexOf(':root {\n  /* Type */'));
+  for (const [k, v] of Object.entries(tokens.color.light)) assert.ok(cs.includes(`--nb-${k}: ${v};`), `--nb-${k} differs in the light-inside-dark block`);
+  const st = css.slice(css.indexOf(':root[data-nb-app="stead"][data-theme="dark"] .nb-light'));
+  for (const [k, v] of Object.entries(tokens.app.stead.light)) assert.ok(st.includes(`--nb-${k}: ${v};`), `Stead --nb-${k} differs in the light-inside-dark block`);
 });

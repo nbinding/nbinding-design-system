@@ -1,5 +1,5 @@
 // nbinding design system: small helpers for the interactive components. No dependencies, no build.
-// import { overlay, toast, copy, onHold, prefs, calendar, mark, esc } from './nb.js';
+// import { overlay, toast, copy, onHold, prefs, calendar, mark, esc, money, amountWords, terms } from './nb.js';
 
 /** Escape text for HTML. Use it on every value that comes from a person or a link. */
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -81,9 +81,9 @@ export function onHold(root, selector, handler, ms = 480) {
   });
 }
 
-/** Reader's display settings: text size, reading font, theme, help with dates, spacing, reduced motion. */
+/** Reader's display settings: text size, reading font, theme, help with dates or numbers, spacing, reduced motion. */
 export const prefs = {
-  defaults: { size: 100, font: 'default', theme: 'system', dateHelp: false, spacing: false, motion: false },
+  defaults: { size: 100, font: 'default', theme: 'system', dateHelp: false, numberHelp: false, spacing: false, motion: false },
   read(key = 'nb-display') {
     try { return { ...this.defaults, ...JSON.parse(sessionStorage.getItem(key)) }; } catch { return { ...this.defaults }; }
   },
@@ -93,6 +93,7 @@ export const prefs = {
     if (p.theme === 'light' || p.theme === 'dark') root.dataset.theme = p.theme; else delete root.dataset.theme;
     root.dataset.nbFont = p.font;
     root.dataset.nbDateHelp = String(!!p.dateHelp);
+    root.dataset.nbNumberHelp = String(!!p.numberHelp);
     root.dataset.nbSpacing = String(!!p.spacing);
     root.dataset.nbMotion = String(!!p.motion);
     try { sessionStorage.setItem(key, JSON.stringify(p)); } catch { /* private mode: applies to this page only */ }
@@ -143,4 +144,74 @@ export function calendar({ month, today = '', days = {}, theirs = {}, mode = 'ed
     <div class="nb-cal__grid nb-cal__weekdays" aria-hidden="true">${wds.map(w => `<span>${esc(w)}</span>`).join('')}</div>
     <div class="nb-cal__grid">${cells.join('')}</div>
   </div>`;
+}
+
+/** Pounds for people: "£425,000", or "£1,250.50" when there are pence. */
+export const money = n => {
+  const v = Math.round(Number(n || 0) * 100) / 100;
+  return (v < 0 ? '−£' : '£') + Math.abs(v).toLocaleString('en-GB', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 });
+};
+
+const ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const under100 = n => n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? '-' + ONES[n % 10] : '');
+const under1000 = n => n < 100 ? under100(n) : `${ONES[Math.floor(n / 100)]} hundred${n % 100 ? ' and ' + under100(n % 100) : ''}`;
+const wholeWords = n => {
+  if (n === 0) return 'zero';
+  const parts = [];
+  for (const [size, name] of [[1e9, 'billion'], [1e6, 'million'], [1e3, 'thousand']]) {
+    if (n >= size) { parts.push(`${under1000(Math.floor(n / size))} ${name}`); n %= size; }
+  }
+  if (n) parts.push(parts.length && n < 100 ? `and ${under100(n)}` : under1000(n));
+  return parts.join(', ').replace(', and', ' and');
+};
+/** An amount in British English words, to read back under a money field: "Four hundred and twenty-five thousand pounds". */
+export function amountWords(n) {
+  const v = Math.round(Math.abs(Number(n || 0)) * 100), pounds = Math.floor(v / 100), pence = v % 100;
+  let out = pounds || !pence ? `${wholeWords(pounds)} ${pounds === 1 ? 'pound' : 'pounds'}` : '';
+  if (pence) out += `${out ? ' and ' : ''}${wholeWords(pence)} ${pence === 1 ? 'penny' : 'pence'}`;
+  if (Number(n) < 0) out = 'minus ' + out;
+  return out[0].toUpperCase() + out.slice(1);
+}
+
+/**
+ * Plain-language terms: a `<button class="nb-term" data-nb-term aria-expanded="false" aria-controls="id">` opens
+ * the `.nb-term-pop` with that id beside it. One open at a time; Escape, a second tap or a tap elsewhere closes it.
+ */
+export function terms(root = document) {
+  let open = null;
+  const close = (refocus) => {
+    if (!open) return;
+    const [btn, pop] = open; open = null;
+    pop.hidden = true; btn.setAttribute('aria-expanded', 'false');
+    if (refocus) btn.focus();
+  };
+  const place = (btn, pop) => {
+    const r = btn.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
+    const left = Math.min(Math.max(12, r.left), innerWidth - w - 12);
+    const below = r.bottom + 8 + h <= innerHeight || r.top < h + 8;
+    pop.style.left = `${left}px`;
+    pop.style.top = `${below ? r.bottom + 8 : r.top - h - 8}px`;
+  };
+  root.addEventListener('click', e => {
+    const btn = e.target.closest('[data-nb-term]');
+    if (!btn) { if (open && !open[1].contains(e.target)) close(false); return; }
+    const pop = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!pop) return;
+    const same = open?.[0] === btn;
+    close(false);
+    if (same) return;
+    pop.hidden = false; btn.setAttribute('aria-expanded', 'true');
+    place(btn, pop); open = [btn, pop];
+  });
+  root.addEventListener('keydown', e => { if (e.key === 'Escape' && open) { e.preventDefault(); close(true); } });
+  // Follow the word as the page moves; close once it has scrolled out of view.
+  const follow = () => {
+    if (!open) return;
+    const r = open[0].getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) close(false); else place(...open);
+  };
+  addEventListener('scroll', follow, { passive: true, capture: true });
+  addEventListener('resize', follow);
+  return () => close(false);
 }

@@ -3,15 +3,15 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-export const PAGES = ['index.html', 'docs/foundations.html', 'docs/brand.html', 'docs/buttons.html', 'docs/forms.html', 'docs/calendar.html',
+export const PAGES = ['index.html', 'docs/foundations.html', 'docs/brand.html', 'docs/buttons.html', 'docs/forms.html', 'docs/calendar.html', 'docs/figures.html', 'docs/journey.html', 'docs/documents.html',
   'docs/navigation.html', 'docs/dock.html', 'docs/overlays.html', 'docs/content.html', 'docs/poster.html', 'docs/accessibility.html'];
 
-async function open(page, path, prefs) {
+async function open(page, path, prefs, app) {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   if (prefs) await page.addInitScript(p => sessionStorage.setItem('nb-docs-display', JSON.stringify(p)), prefs);
-  await page.goto(path);
+  await page.goto(app ? `${path}?app=${app}` : path);
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('template.docs-src')).toHaveCount(0); // every example rendered
   return errors;
@@ -22,9 +22,10 @@ async function noSideways(page) {
   expect(await page.evaluate(() => innerWidth)).toBe(page.viewportSize().width); // the browser didn't widen the layout
 }
 
-for (const path of PAGES) {
-  test(`${path} renders cleanly and passes axe`, async ({ page }) => {
-    const errors = await open(page, path);
+for (const path of PAGES) for (const app of ['calshare', 'stead']) {
+  test(`${path} renders cleanly and passes axe (${app})`, async ({ page }) => {
+    const errors = await open(page, path, null, app);
+    if (app === 'stead') await expect(page.locator('html')).toHaveAttribute('data-nb-app', 'stead');
     await noSideways(page);
     // Open every disclosure so axe sees the HTML samples too
     await page.$$eval('details', ds => ds.forEach(d => { d.open = true; }));
@@ -33,17 +34,17 @@ for (const path of PAGES) {
     const serious = axe.violations.filter(v => ['serious', 'critical'].includes(v.impact));
     expect(serious.map(v => `${v.id}: ${v.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ')}`)).toEqual([]);
     // Interactive controls in the system are at least 44px in both directions (inline links in prose excepted)
-    const small = await page.$$eval('.nb-button, .nb-icon-button, .nb-chip, .nb-text-button, .nb-cell:not(.nb-cell--blank), .nb-choice, .nb-segmented > button, .nb-options > button, .nb-disclosure > summary', els =>
+    const small = await page.$$eval('.nb-button, .nb-icon-button, .nb-chip, .nb-text-button, .nb-cell:not(.nb-cell--blank), .nb-choice, .nb-segmented > button, .nb-options > button, .nb-disclosure > summary, .nb-tabbar__item, .nb-action, .nb-money', els =>
       els.filter(e => e.offsetParent).map(e => [e, e.getBoundingClientRect()]).filter(([, r]) => r.height < 39.5 || r.width < 39.5).map(([e, r]) => `${e.className || e.tagName} ${Math.round(r.width)}x${Math.round(r.height)}`));
     expect(small).toEqual([]);
     expect(errors).toEqual([]);
   });
 
-  test(`${path} holds up at 150% text with OpenDyslexic`, async ({ page }) => {
-    const errors = await open(page, path, { size: 150, font: 'dyslexic', theme: 'system', dateHelp: true, spacing: true, motion: true });
+  test(`${path} holds up at 150% text with OpenDyslexic (${app})`, async ({ page }) => {
+    const errors = await open(page, path, { size: 150, font: 'dyslexic', theme: 'system', dateHelp: true, numberHelp: true, spacing: true, motion: true }, app);
     await expect(page.locator('html')).toHaveAttribute('data-nb-font', 'dyslexic');
     await noSideways(page);
-    const spilling = await page.$$eval('.nb-cell span, .nb-cal__month, .nb-dock__summary, .nb-words', els =>
+    const spilling = await page.$$eval('.nb-cell span, .nb-cal__month, .nb-dock__summary, .nb-words, .nb-sum__total, .nb-answers dd, .nb-when, .nb-tabbar__item', els =>
       els.filter(e => e.offsetParent && e.getBoundingClientRect().right > innerWidth + 1).length);
     expect(spilling).toBe(0);
     expect(errors).toEqual([]);

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Figures · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Figures</h1>
+<p class="nb-lead">Money in, sums out. Fields put the unit beside the number, read the amount back in words, and show the working behind every total.</p>
+
+<template class="docs-src" data-title="Money field" data-notes="The pound sign sits outside the input, so people type only the number. inputmode=&quot;decimal&quot; brings up the number keyboard.">
+<div class="nb-field"><label class="nb-field__label" for="mf-v">Value today</label><div class="nb-money"><span class="nb-money__unit" aria-hidden="true">£</span><input class="nb-money__input" id="mf-v" inputmode="decimal" value="425,000" aria-describedby="mf-v-w"></div><p class="nb-field__words" id="mf-v-w">Four hundred and twenty-five thousand pounds</p></div>
+</template>
+
+<template class="docs-src" data-title="Money field with an error" data-notes="">
+<div class="nb-field"><label class="nb-field__label" for="mf-e">Mortgage still owed</label><div class="nb-money"><span class="nb-money__unit" aria-hidden="true">£</span><input class="nb-money__input" id="mf-e" inputmode="decimal" value="18x,400" aria-invalid="true" aria-describedby="mf-e-err"></div><p class="nb-field__error" id="mf-e-err" role="alert">Use numbers only, like 182,400.</p></div>
+</template>
+
+<template class="docs-src" data-title="Amount in words" data-notes="amountWords(n) in nb.js writes the words, for example for readers who turn on help with numbers. money(n) formats the figure.">
+<p class="nb-field__words">One hundred and eighty-two thousand, four hundred pounds</p>
+</template>
+
+<template class="docs-src" data-title="Sum" data-notes="A worked total, with the working shown underneath its label.">
+<div class="nb-sum"><span><span class="nb-sum__label">Equity before costs</span><span class="nb-sum__working">£425,000 − £182,400</span></span><strong class="nb-sum__total">£242,600</strong></div>
+</template>
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

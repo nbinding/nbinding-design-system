@@ -3,7 +3,7 @@
    maybe = dotted outline + "?", choosable = outlined, chosen = solid. */
 
 .nb-cal__head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--nb-space-2); }
-.nb-cal__month { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .3em; min-width: 0; font-family: var(--nb-font-display); font-weight: 800; font-size: min(3.6rem, 12.5vw); line-height: .95; letter-spacing: -0.055em; }
+.nb-cal__month { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .3em; min-width: 0; font-family: var(--nb-font-display); font-weight: var(--nb-weight-display); font-size: min(3.6rem, 12.5vw); line-height: .95; letter-spacing: -0.055em; }
 .nb-cal__year { font-family: var(--nb-font-body); font-size: .95rem; font-weight: 500; letter-spacing: 0; color: var(--nb-muted); white-space: nowrap; }
 .nb-cal__nav { display: flex; gap: 2px; }
 .nb-cal__nav .nb-icon-button:disabled { visibility: hidden; }
