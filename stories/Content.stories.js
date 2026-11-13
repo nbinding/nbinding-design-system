@@ -30,3 +30,15 @@ export const HowItWorks = {
 export const SectionLabel = { args: { label: 'Your plans' }, render: ({ label }) => `<p class="nb-section">${esc(label)}</p>` };
 export const PrivacyLine = { render: () => `<p class="nb-privacy">${icons.lock}<span>Encrypted in your browser. Nothing is sent to a server.</span></p>` };
 export const Card = { render: () => `<div class="story-frame"><div class="nb-card"><p class="nb-h3">Planning with a group?</p><p class="nb-small">Everyone gets the same link and replies to you separately.</p></div></div>` };
+
+export const Eyebrow = {
+  args: { eyebrow: 'Step 3 of 14 · Before the Conditional Order', title: 'One agreement.', soft: 'Fourteen steady steps.' },
+  render: ({ eyebrow, title, soft }) => `<div class="story-frame nb-stack"><p class="nb-eyebrow">${esc(eyebrow)}</p><h2 class="nb-display">${esc(title)} <em>${esc(soft)}</em></h2></div>`,
+};
+
+export const ActionRows = {
+  render: () => `<div class="story-frame"><ul class="nb-actions">
+    <li><a class="nb-action" href="#"><span class="nb-badge nb-badge--solid" aria-hidden="true">${icons.share}</span><span><strong>Share with the other person</strong><small>A locked link, and words to open it</small></span>${icons.chevron}</a></li>
+    <li><button class="nb-action"><span class="nb-badge" aria-hidden="true">${icons.download}</span><span><strong>Save a backup file</strong><small>Keep a copy somewhere safe</small></span>${icons.chevron}</button></li>
+    <li><button class="nb-action"><span class="nb-badge" aria-hidden="true">${icons.upload}</span><span><strong>Open a backup file</strong><small>We'll ask before replacing anything</small></span>${icons.chevron}</button></li></ul></div>`,
+};

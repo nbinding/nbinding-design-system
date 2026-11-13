@@ -21,3 +21,8 @@ export const Group = { args: { what: 'Hike · 4 people', note: '4 of 4 can make 
 export const SeveralDays = {
   render: () => `<div class="story-frame"><div class="nb-poster nb-poster--multi"><p class="nb-poster__what">Hike · 2 days</p><ul class="nb-poster__days">${day('2026-11-21', 'Any time')}${day('2026-11-25', 'Evening (still a maybe)')}</ul><div class="nb-poster__hatch" aria-hidden="true"></div></div></div>`,
 };
+
+export const Sealed = {
+  render: () => `<div class="story-frame"><div class="nb-poster"><div class="nb-poster__seal" aria-hidden="true"></div><p class="nb-poster__what">Consent order sealed · Sam &amp; Alex</p><ul class="nb-poster__days">${day('2027-03-12', 'Binding on you both from today.')}</ul></div></div>`,
+  parameters: { docs: { description: { story: 'A seal instead of the hatch, for something made official.' } } },
+};

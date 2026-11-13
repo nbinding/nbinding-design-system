@@ -33,6 +33,18 @@ a.nb-nav__item:hover, button.nb-nav__item:hover { background: var(--nb-surface);
 /* Dock: the count, a detail and the one next action, sticky at the bottom */
 .nb-dock { position: sticky; bottom: 0; z-index: 4; display: flex; flex-direction: column; gap: var(--nb-space-3); padding: 14px 0 max(16px, env(safe-area-inset-bottom)); background: var(--nb-surface); border-top: 1px solid var(--nb-line); }
 .nb-dock__row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--nb-space-3); }
-.nb-dock__summary { font-family: var(--nb-font-display); font-weight: 600; font-size: var(--nb-text-xl); letter-spacing: -0.02em; }
+.nb-dock__summary { font-family: var(--nb-font-display); font-weight: var(--nb-weight-heading); font-size: var(--nb-text-xl); letter-spacing: -0.02em; }
 .nb-dock__detail { font-size: var(--nb-text-sm); color: var(--nb-muted); }
 html:has(.nb-dock):not(:has(.nb-sheet, .nb-dialog)) { scroll-padding-bottom: calc(150px * var(--nb-text-scale, 1)); }
+
+/* Stepper as bars: for many sections (labels stay, for screen readers) */
+.nb-stepper--bars { align-items: end; gap: 4px; }
+.nb-stepper--bars li { justify-content: flex-end; }
+.nb-stepper--bars li[aria-current="step"]::before { height: 8px; border-radius: 4px; }
+
+/* Tab bar: an app's main areas, at the bottom on a phone */
+.nb-tabbar { position: sticky; bottom: 0; z-index: 4; display: grid; grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; padding: 4px 4px max(10px, env(safe-area-inset-bottom)); border-top: 1px solid var(--nb-line); background: var(--nb-surface); }
+.nb-tabbar__item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 0; min-height: 56px; padding: 4px 2px; color: var(--nb-muted); font-size: var(--nb-text-xs); line-height: 1.2; text-align: center; text-decoration: none; overflow-wrap: anywhere; }
+.nb-tabbar__item svg { width: 22px; height: 22px; }
+.nb-tabbar__item[aria-current] { color: var(--nb-ink); font-weight: 700; }
+.nb-tabbar__item[aria-current]::before { content: ''; position: absolute; top: -5px; left: 30%; right: 30%; height: 3px; border-radius: 0 0 3px 3px; background: var(--nb-accent); }

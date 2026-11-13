@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Documents · nbinding design</title>
+<link rel="stylesheet" href="../src/nb.css">
+<link rel="stylesheet" href="docs.css">
+<script type="module" src="docs.js"></script>
+</head>
+<body>
+<header data-docs-header></header>
+<main id="main" class="docs-main" tabindex="-1">
+<h1 class="nb-display">Documents</h1>
+<p class="nb-lead">Drafts in formal wording, shown as paper so they read as a document. Gaps still to fill are dotted, and hard words explain themselves.</p>
+
+<template class="docs-src" data-title="Paper preview" data-notes="Paper stays light in dark mode, like a printout.">
+<article class="nb-document" aria-label="Draft consent order"><h2 class="nb-document__title">In the Family Court</h2><p class="nb-document__centre">sitting at <span class="nb-gap">court</span></p><h2 class="nb-document__title">Order</h2><p class="nb-document__para"><span>1.</span><span>The family home at <span class="nb-gap">address</span> shall be sold, and the net proceeds divided equally.</span></p><p class="nb-document__para nb-document__para--later"><span>2.</span><span>Lump sum, pensions and a clean break follow once those sections are done.</span></p></article>
+</template>
+
+<template class="docs-src" data-title="Plain-language term" data-notes="Tap or press Enter on the dotted word. Escape, a second tap or a tap elsewhere closes it. Needs terms() from nb.js.">
+<p>The order needs a <button class="nb-term" data-nb-term aria-expanded="false" aria-controls="term-longstop">longstop date</button><span class="nb-term-pop" id="term-longstop" role="note" hidden><strong>Longstop date</strong>The latest date something must happen by, even if the earlier date slips.</span> in case the sale is delayed.</p>
+</template>
+
+<template class="docs-src" data-title="Term explanation, shown in place" data-notes="The same explanation shown open, for documentation.">
+<span class="nb-term-pop nb-term-pop--inline"><strong>Sealed</strong>Stamped by the court. A sealed order is binding.</span>
+</template>
+
+</main>
+<footer class="docs-foot" data-docs-footer></footer>
+</body>
+</html>

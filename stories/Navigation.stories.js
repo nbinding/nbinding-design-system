@@ -36,3 +36,18 @@ export const Progress = {
   args: { value: 2, max: 4 },
   render: ({ value, max }) => `<div class="story-frame"><progress class="nb-progress" value="${Number(value)}" max="${Number(max)}" aria-label="Steps done">${value} of ${max}</progress></div>`,
 };
+
+export const StepperBars = {
+  args: { current: 3 },
+  argTypes: { current: { control: { type: 'range', min: 1, max: 7 } } },
+  render: ({ current }) => {
+    const s = ['The two of you', 'Children', 'Home', 'Savings', 'Pensions', 'Income', 'After the order'];
+    return `<div class="story-frame"><p class="nb-small"><strong>Section ${current} of 7 · ${s[current - 1]}</strong></p><ol class="nb-stepper nb-stepper--bars" aria-label="Sections">${s.map((t, i) => `<li${i + 1 < current ? ' data-state="done"' : ''}${i + 1 === current ? ' aria-current="step"' : ''}><span class="nb-sr-only">${t}${i + 1 < current ? ', done' : ''}</span></li>`).join('')}</ol></div>`;
+  },
+};
+
+export const TabBar = {
+  args: { current: 'Journey' },
+  argTypes: { current: { control: 'inline-radio', options: ['Journey', 'D81', 'Form A', 'Order'] } },
+  render: ({ current }) => `<div class="story-frame"><nav class="nb-tabbar" aria-label="Stead">${[['Journey', 'journey'], ['D81', 'sums'], ['Form A', 'form'], ['Order', 'scales']].map(([t, i]) => `<a class="nb-tabbar__item" href="#"${t === current ? ' aria-current="page"' : ''}>${icons[i]}${t}</a>`).join('')}</nav></div>`,
+};

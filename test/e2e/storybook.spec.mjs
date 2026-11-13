@@ -11,13 +11,14 @@ test('Storybook was built for this run', () => {
   expect(stories.length).toBeGreaterThan(40);
 });
 
-for (const story of stories) {
-  test(`story ${story.id}`, async ({ page }, info) => {
+for (const story of stories) for (const app of ['calshare', 'stead']) {
+  test(`story ${story.id} (${app})`, async ({ page }, info) => {
     test.skip(info.project.name !== 'iphone', 'stories are checked once, at phone size');
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-    await page.goto(`storybook-static/iframe.html?id=${story.id}&viewMode=story`);
+    await page.goto(`storybook-static/iframe.html?id=${story.id}&viewMode=story${app === 'stead' ? '&globals=app:stead' : ''}`);
+    if (app === 'stead') await expect(page.locator('html')).toHaveAttribute('data-nb-app', 'stead');
     const root = page.locator('#storybook-root');
     await expect(root.locator(':scope > *').first()).toBeAttached(); // some stories are icons only, with no text
     await page.evaluate(() => document.fonts.ready);

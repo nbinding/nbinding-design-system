@@ -1,7 +1,7 @@
 // nb.js helpers that run without a DOM: escaping, the brand mark and the calendar renderer.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { esc, mark, calendar } from '../src/js/nb.js';
+import { esc, mark, calendar, money, amountWords } from '../src/js/nb.js';
 
 test('esc escapes HTML', () => {
   assert.equal(esc('<img src=x onerror="a">&\''), '&lt;img src=x onerror=&quot;a&quot;&gt;&amp;&#39;');
@@ -45,4 +45,23 @@ test('calendar pick mode: choosable, chosen, counts, and other days disabled', (
 
 test('calendar escapes the lead text', () => {
   assert.match(calendar({ month: '2026-11', lead: '<b>hi</b>' }), /&lt;b&gt;hi&lt;\/b&gt;/);
+});
+
+test('money formats pounds, with pence only when there are some', () => {
+  assert.equal(money(425000), '£425,000');
+  assert.equal(money(1250.5), '£1,250.50');
+  assert.equal(money(0), '£0');
+  assert.equal(money(-40), '−£40');
+});
+
+test('amountWords reads amounts in British English', () => {
+  assert.equal(amountWords(425000), 'Four hundred and twenty-five thousand pounds');
+  assert.equal(amountWords(182400), 'One hundred and eighty-two thousand, four hundred pounds');
+  assert.equal(amountWords(1), 'One pound');
+  assert.equal(amountWords(0), 'Zero pounds');
+  assert.equal(amountWords(1005), 'One thousand and five pounds');
+  assert.equal(amountWords(2500000), 'Two million, five hundred thousand pounds');
+  assert.equal(amountWords(12.5), 'Twelve pounds and fifty pence');
+  assert.equal(amountWords(0.01), 'One penny');
+  assert.equal(amountWords(-40), 'Minus forty pounds');
 });

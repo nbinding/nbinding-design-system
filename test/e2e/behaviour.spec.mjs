@@ -75,6 +75,53 @@ test('display settings apply to the site and persist for the tab', async ({ page
   await expect(html).toHaveAttribute('data-nb-font', 'default');
 });
 
+test('app look switch: Stead restyles every component and persists for the tab', async ({ page }) => {
+  await page.goto('docs/buttons.html');
+  const html = page.locator('html');
+  await expect(html).not.toHaveAttribute('data-nb-app', /./);
+  const looks = page.getByRole('group', { name: 'App look' });
+  await expect(looks.getByRole('button', { name: 'Calshare' })).toHaveAttribute('aria-pressed', 'true');
+  const bg = () => page.locator('.docs-frame.nb-light .nb-button').first().evaluate(b => getComputedStyle(b).backgroundColor);
+  const before = await bg();
+  await looks.getByRole('button', { name: 'Stead' }).click();
+  await expect(html).toHaveAttribute('data-nb-app', 'stead');
+  await expect(looks.getByRole('button', { name: 'Stead' })).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(bg).toBe('rgb(41, 70, 74)'); // Stead's forest accent (after the button's transition)
+  expect(before).not.toBe(await bg());
+  expect(await page.evaluate(() => getComputedStyle(document.querySelector('.nb-display')).fontFamily)).toContain('Source Serif 4');
+  await page.goto('docs/journey.html');
+  await expect(html).toHaveAttribute('data-nb-app', 'stead');
+  await page.getByRole('group', { name: 'App look' }).getByRole('button', { name: 'Calshare' }).click();
+  await expect(html).not.toHaveAttribute('data-nb-app', /./);
+});
+
+test('plain-language term opens beside the word and closes with Escape or a tap elsewhere', async ({ page }) => {
+  await page.goto('docs/documents.html');
+  const term = page.locator('.docs-frame.nb-light [data-nb-term]').first();
+  const pop = page.locator('.docs-frame.nb-light .nb-term-pop:not(.nb-term-pop--inline)').first();
+  await expect(pop).toBeHidden();
+  await term.click();
+  await expect(term).toHaveAttribute('aria-expanded', 'true');
+  await expect(pop).toBeVisible();
+  const [t, p] = [await term.boundingBox(), await pop.boundingBox()];
+  expect(p.y).toBeGreaterThan(t.y); // below the word
+  expect(p.x + p.width).toBeLessThanOrEqual(page.viewportSize().width); // never off screen
+  await page.keyboard.press('Escape');
+  await expect(pop).toBeHidden();
+  await expect(term).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(pop).toBeVisible();
+  await page.locator('h1').click();
+  await expect(pop).toBeHidden();
+  await expect(term).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('help with numbers sets its attribute', async ({ page }) => {
+  await page.goto('docs/accessibility.html');
+  await page.locator('[data-docs-prefs]').getByRole('checkbox', { name: /Help with numbers/ }).check();
+  await expect(page.locator('html')).toHaveAttribute('data-nb-number-help', 'true');
+});
+
 test('copy HTML shows a toast', async ({ page, context, browserName }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']).catch(() => {});
   await page.goto('docs/buttons.html');

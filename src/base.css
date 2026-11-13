@@ -11,14 +11,17 @@ img, svg { display: block; flex-shrink: 0; }
 :focus-visible { outline: 3px solid var(--nb-ring); outline-offset: 3px; }
 
 /* Headings */
-.nb-display, .nb-h1 { font-family: var(--nb-font-display); font-weight: 800; font-size: var(--nb-text-display); line-height: 1; letter-spacing: var(--nb-tracking-display); }
-.nb-h2 { font-family: var(--nb-font-display); font-weight: 700; font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.02em; }
+.nb-display, .nb-h1 { font-family: var(--nb-font-display); font-weight: var(--nb-weight-display); font-size: var(--nb-text-display); line-height: 1; letter-spacing: var(--nb-tracking-display); }
+.nb-h2 { font-family: var(--nb-font-display); font-weight: var(--nb-weight-heading); font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.02em; }
 .nb-h3 { font-size: var(--nb-text-lg); font-weight: 600; line-height: 1.35; }
 .nb-context { font-size: .95rem; color: var(--nb-muted); }
 .nb-lead { font-size: var(--nb-text-lg); line-height: 1.65; color: var(--nb-muted); }
 .nb-small { font-size: var(--nb-text-sm); line-height: 1.55; color: var(--nb-muted); }
 .nb-label { font-size: .95rem; font-weight: 600; }
 .nb-mono { font-family: var(--nb-font-mono); font-size: .92em; }
+.nb-eyebrow { font-size: var(--nb-text-xs); font-weight: 600; letter-spacing: .12em; line-height: 1.5; text-transform: uppercase; color: var(--nb-muted); }
+/* A second, softer line in a heading: "One agreement. <em>Fourteen steady steps.</em>" */
+:is(.nb-display, .nb-h1, .nb-h2) em { font-style: italic; color: var(--nb-em); }
 
 /* Layout */
 .nb-page { max-width: var(--nb-page); margin: 0 auto; padding: var(--nb-space-3) var(--nb-space-4) var(--nb-space-8); }
@@ -34,7 +37,7 @@ body.nb-locked { overflow: hidden; }
 
 /* Reader's display settings, set on <html> (see js/nb.js: nb.prefs) */
 html[data-nb-font="sans"] body, html[data-nb-font="sans"] :is(button, input, textarea, select) { font-family: Arial, Helvetica, sans-serif; }
-html[data-nb-font="sans"] :is(.nb-display, .nb-h1, .nb-h2, .nb-brand, .nb-cal__month, .nb-cell__num, .nb-poster__day, .nb-poster__line, .nb-words, .nb-beat__n, .nb-dock__summary) { font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.01em; }
+html[data-nb-font="sans"] :is(.nb-display, .nb-h1, .nb-h2, .nb-brand, .nb-cal__month, .nb-cell__num, .nb-poster__day, .nb-poster__line, .nb-words, .nb-beat__n, .nb-dock__summary, .nb-sum__total, .nb-when b, .nb-answers dd, .nb-icon-list h3, .nb-term-pop strong, .nb-document) { font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.01em; }
 html[data-nb-font="dyslexic"] :is(body, button, input, textarea, select, h1, h2, h3, p, span, strong, small, em, label, legend, code) { font-family: OpenDyslexic, Arial, sans-serif !important; letter-spacing: normal; }
 html[data-nb-font="dyslexic"] :is(.nb-display, .nb-h1) { font-size: clamp(1.7rem, 6.5vw, 2.3rem); line-height: 1.4; }
 html[data-nb-spacing="true"] :is(p, label, button, input, textarea, li, small) { letter-spacing: .035em; word-spacing: .1em; }

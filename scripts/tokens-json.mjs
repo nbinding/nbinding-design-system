@@ -16,16 +16,26 @@ export async function buildTokens() {
   const light = vars(block(css, ':root, .nb-light {'));
   const dark = vars(block(css, ':root[data-theme="dark"], .nb-dark {'));
   const rest = vars(block(css, ':root {\n  /* Type */'));
+  const steadType = vars(block(css, '[data-nb-app="stead"] {\n  /* Stead type and shape */'));
+  const stead = {
+    light: vars(block(css, '[data-nb-app="stead"], [data-nb-app="stead"] .nb-light {')),
+    dark: vars(block(css, ':root[data-nb-app="stead"][data-theme="dark"], [data-nb-app="stead"] .nb-dark, .nb-dark[data-nb-app="stead"] {')),
+    font: { display: steadType['font-display'] },
+    weight: { display: steadType['weight-display'], heading: steadType['weight-heading'] },
+    radius: Object.fromEntries(Object.entries(steadType).filter(([k]) => k.startsWith('radius-')).map(([k, v]) => [k.slice(7), v])),
+  };
   const pick = prefix => Object.fromEntries(Object.entries(rest).filter(([k]) => k.startsWith(prefix)).map(([k, v]) => [k.slice(prefix.length), v]));
   return {
     $description: 'nbinding design system tokens. Generated from src/tokens.css by scripts/tokens-json.mjs. Do not edit by hand.',
     color: { light, dark },
     font: pick('font-'),
+    weight: pick('weight-'),
     text: pick('text-'),
     space: pick('space-'),
     radius: pick('radius-'),
     size: { tap: rest.tap, button: rest.button, page: rest.page },
     motion: { duration: rest.duration, ease: rest.ease },
+    app: { stead },
   };
 }
 

@@ -37,3 +37,8 @@ export const Chip = {
   args: { label: 'Display', icon: 'settings', small: false },
   render: ({ label, icon, small }) => `<button class="nb-chip${small ? ' nb-chip--sm' : ''}">${icons[icon]}<span>${esc(label)}</span></button>`,
 };
+
+export const DestructiveTextButton = {
+  args: { label: 'Clear everything from this browser' },
+  render: ({ label }) => `<button class="nb-text-button nb-text-button--danger">${esc(label)}</button>`,
+};
